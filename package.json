@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/jmversteeg/magic-handle",
   "dependencies": {
-    "is_js": "^0.7.1",
+    "functionify": "^1.0.0",
     "lodash": "^3.3.1",
     "q": "^1.2.0"
   }
