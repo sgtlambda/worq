@@ -4,3 +4,8 @@ node_js:
   - 'iojs'
   - '0.12'
   - '0.10'
+before_script:
+  - npm install -g istanbul
+script:
+  - istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly --
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
