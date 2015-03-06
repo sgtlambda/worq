@@ -1,34 +1,40 @@
 {
-  "name":         "magic-handle",
-  "version":      "0.0.1",
-  "description":  "Abstract interface that automatically opens on activity and closes after a predefined interval of inactivity",
-  "main":         "lib/MagicHandle.js",
-  "scripts":      {
+  "name":            "magic-handle",
+  "version":         "0.0.1",
+  "description":     "Abstract interface that automatically opens on activity and closes after a predefined interval of inactivity",
+  "main":            "lib/MagicHandle.js",
+  "scripts":         {
     "pretest": "jshint lib",
     "test":    "mocha"
   },
-  "engines":      {
+  "engines":         {
     "node": ">=0.10.0"
   },
-  "repository":   {
+  "repository":      {
     "type": "git",
     "url":  "https://github.com/jmversteeg/magic-handle"
   },
-  "keywords":     [
+  "keywords":        [
     "connect",
     "sockets",
     "handle",
     "util"
   ],
-  "author":       "JM Versteeg",
-  "license":      "MIT",
-  "bugs":         {
+  "author":          "JM Versteeg",
+  "license":         "MIT",
+  "bugs":            {
     "url": "https://github.com/jmversteeg/magic-handle/issues"
   },
-  "homepage":     "https://github.com/jmversteeg/magic-handle",
-  "dependencies": {
+  "homepage":        "https://github.com/jmversteeg/magic-handle",
+  "dependencies":    {
     "functionify": "^1.0.0",
     "lodash":      "^3.3.1",
     "q":           "^1.2.0"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.2",
+    "jshint":    "^2.6.3",
+    "mocha":     "^2.1.0",
+    "should":    "^5.1.0"
   }
 }
