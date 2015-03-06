@@ -19,6 +19,9 @@ MIT © JM Versteeg
 [travis-image]: https://img.shields.io/travis/jmversteeg/magic-handle.svg?style=flat-square
 [travis-url]: https://travis-ci.org/jmversteeg/magic-handle
 
+[david-image]: https://img.shields.io/david/jmversteeg/magic-handle.svg?style=flat-square
+[david-url]: https://david-dm.org/jmversteeg/magic-handle
+
 [david-dev-image]: https://img.shields.io/david/dev/jmversteeg/magic-handle.svg?style=flat-square
 [david-dev-url]: https://david-dm.org/jmversteeg/magic-handle#info=devDependencies
 
