@@ -4,8 +4,8 @@
   "description":  "Abstract interface that automatically opens on activity and closes after a predefined interval of inactivity",
   "main":         "lib/MagicHandle.js",
   "scripts":      {
-    "pretest": "jshint index.js",
-    "test":    "mocha -r should -R spec"
+    "pretest": "jshint lib",
+    "test":    "mocha"
   },
   "engines":      {
     "node": ">=0.10.0"
