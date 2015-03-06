@@ -5,7 +5,7 @@ describe('Job', function () {
 
     var job = new Job('foo');
 
-    it('should hold the data property', function () {
+    it('should expose a data property', function () {
         job.getData().should.be.exactly('foo');
     });
 
