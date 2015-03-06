@@ -1,5 +1,6 @@
 # magic-handle
 [![Build Status][travis-image]][travis-url]
+[![dependency Status][david-image]][david-url]
 [![devDependency Status][david-dev-image]][david-dev-url]
 [![Code Coverage][coveralls-image]][coveralls-url]
 [![NPM Version][npm-image]][npm-url]
