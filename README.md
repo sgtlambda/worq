@@ -65,18 +65,21 @@ handle.close(true); // Gracefully closes the handle (waits for the job queue to 
 
 // The handle would have automatically closed after the predefined timeout of three seconds if the close method had not
 // been invoked manually.
+```
 
+The output of above code:
 
-// [0:00] opening
-// [0:01] open
-// [0:01] Performing lengthy operations on foobar (thread 0)
-// [0:01] Performing lengthy operations on foobaz (thread 1)
-// [0:02] The result of foobar: FOOBAR
-// [0:02] Performing lengthy operations on barbaz (thread 0)
-// [0:02] The result of foobaz: FOOBAZ
-// [0:03] The result of barbaz: BARBAZ
-// [0:03] closing
-// [0:04] closed
+```
+[0:00] opening
+[0:01] open
+[0:01] Performing lengthy operations on foobar (thread 0)
+[0:01] Performing lengthy operations on foobaz (thread 1)
+[0:02] The result of foobar: FOOBAR
+[0:02] Performing lengthy operations on barbaz (thread 0)
+[0:02] The result of foobaz: FOOBAZ
+[0:03] The result of barbaz: BARBAZ
+[0:03] closing
+[0:04] closed
 ```
 
 ## License
