@@ -22,7 +22,7 @@ $ npm install --save worq
 var Worqer = require('worq'),
     Q      = require('q');
 
-// Some helper code to illustrate what happens when in the output log
+// Some helper code to clarify the output log
 var start              = new Date().getTime(),
     logWithElapsedTime = function (msg) {
         var now = new Date();
