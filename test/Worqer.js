@@ -1,12 +1,12 @@
 var should      = require("should"),
-    MagicHandle = require('../'),
+    Worqer = require('../'),
     Q           = require('q');
 
-describe('MagicHandle', function () {
+describe('Worqer', function () {
 
     var open = false,
         tickLength = 5,
-        handle = new MagicHandle({
+        handle = new Worqer({
             open:        function () {
                 return Q.delay(tickLength * 10).then(function () {
                     open = true;
@@ -54,7 +54,7 @@ describe('MagicHandle', function () {
         var job2started = false;
         var job = handle.process('bar');
         job.progress(function (val) {
-            if (val === MagicHandle.events.START) {
+            if (val === Worqer.events.START) {
                 job2started = true;
             }
         });

@@ -1,8 +1,8 @@
 {
-  "name":            "magic-handle",
+  "name":            "worq",
   "version":         "0.0.1",
-  "description":     "Promise-based job queue / handler interface that opens / closes on demand",
-  "main":            "lib/MagicHandle.js",
+  "description":     "Promise-based job queue that opens on demand and closes after a specified interval of inactivity",
+  "main":            "lib/Worqer.js",
   "scripts":         {
     "pretest": "jshint lib",
     "test":    "mocha"
@@ -15,9 +15,20 @@
     "url":  "https://github.com/jmversteeg/magic-handle"
   },
   "keywords":        [
-    "connect",
-    "sockets",
-    "handle",
+    "worker",
+    "promise",
+    "promises",
+    "q",
+    "flow control",
+    "handler",
+    "threaded",
+    "thread",
+    "threads",
+    "concurrency",
+    "job",
+    "tasks",
+    "task",
+    "queue",
     "util"
   ],
   "author":          "JM Versteeg",
