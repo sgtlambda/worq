@@ -6,26 +6,24 @@ describe('Worqer', function () {
 
     var open = false,
         tickLength = 10,
-        handle = new Worqer({
-            open:        function () {
+        handle = new Worqer(function (data) {
+            if (data === 'bar')
+                return Q('foo').delay(tickLength * 10);
+            if (data === 'baz')
                 return Q.delay(tickLength * 10).then(function () {
-                    open = true;
+                    throw new Error('baz is not the word');
                 });
-            },
-            process:     function (data) {
-                if (data === 'bar')
-                    return Q('foo').delay(tickLength * 10);
-                if (data === 'baz')
-                    return Q.delay(tickLength * 10).then(function () {
-                        throw new Error('baz is not the word');
-                    });
-                return Q.delay(tickLength * 10);
-            },
-            close:       function () {
-                return Q.delay(tickLength * 5).then(function () {
-                    open = false;
-                });
-            },
+            return Q.delay(tickLength * 10);
+        }, function () {
+            return Q.delay(tickLength * 10).then(function () {
+                open = true;
+            });
+        }, function () {
+            return Q.delay(tickLength * 5).then(function () {
+                open = false;
+            });
+        }, {
+
             timeout:     20 * tickLength,
             concurrency: 1
         });
