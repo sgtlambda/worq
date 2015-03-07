@@ -1,7 +1,7 @@
 {
   "name":            "magic-handle",
   "version":         "0.0.1",
-  "description":     "Abstract interface that automatically opens on activity and closes after a predefined interval of inactivity",
+  "description":     "Promise-based job queue / handler interface that opens / closes on demand",
   "main":            "lib/MagicHandle.js",
   "scripts":         {
     "pretest": "jshint lib",
