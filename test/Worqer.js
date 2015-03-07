@@ -1,11 +1,11 @@
-var should      = require("should"),
+var should = require("should"),
     Worqer = require('../'),
-    Q           = require('q');
+    Q      = require('q');
 
 describe('Worqer', function () {
 
     var open = false,
-        tickLength = 5,
+        tickLength = 10,
         handle = new Worqer({
             open:        function () {
                 return Q.delay(tickLength * 10).then(function () {
