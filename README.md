@@ -5,7 +5,7 @@
 [![Code Coverage][coveralls-image]][coveralls-url]
 [![NPM Version][npm-image]][npm-url]
 
-Abstract interface that automatically opens on activity and closes after a predefined interval of inactivity
+Promise-based job queue that opens on demand and closes after a specified interval of inactivity
 
 ## Install
 
