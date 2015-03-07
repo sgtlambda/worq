@@ -39,7 +39,8 @@ var handle = new Worqer(
         });
     },
     function (data, threadNo) {
-        logWithElapsedTime('Performing lengthy operations on ' + data + ' (thread ' + threadNo + ')');
+        logWithElapsedTime('Performing lengthy operations on ' + data + 
+        ' (thread ' + threadNo + ')');
         return Q.delay(1000).then(function () {
             return data.toUpperCase();
         });
@@ -61,10 +62,10 @@ var handle = new Worqer(
     });
 });
 
-handle.close(true); // Gracefully closes the handle (waits for the job queue to finish processing, then closes)
-
-// The handle would have automatically closed after the predefined timeout of three seconds if the close method had not
-// been invoked manually.
+handle.close(true);
+// Gracefully closes the handle (waits for the job queue to finish processing, then closes)
+// The handle would have automatically closed after the predefined timeout of three seconds
+// if the close method had not been invoked manually.
 ```
 
 The output of above code:
