@@ -4,6 +4,7 @@
   "description":     "Promise-based job queue that opens on demand and closes after a specified interval of inactivity",
   "main":            "lib/Worqer.js",
   "scripts":         {
+    "docs":    "./node_modules/.bin/jsdoc lib/*.js -d docs",
     "pretest": "jshint lib",
     "test":    "mocha"
   },
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.2",
+    "jsdoc":     "^3.3.0-beta2",
     "jshint":    "^2.6.3",
     "mocha":     "^2.1.0",
     "should":    "^5.1.0"
