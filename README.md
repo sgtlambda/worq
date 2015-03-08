@@ -31,6 +31,7 @@ var start              = new Date().getTime(),
 
 // Declare the Worqer
 var handle = new Worqer(
+
     function (data, threadNo) {
         logWithElapsedTime('Performing lengthy operations on ' + data +
         ' (thread ' + threadNo + ')');
@@ -38,20 +39,24 @@ var handle = new Worqer(
             return data.toUpperCase();
         });
     }, {
+    
         concurrency: 2,
         timeout:     3000,
+        
         open:        function () {
             logWithElapsedTime('opening');
             return Q.delay(1000).then(function () {
                 logWithElapsedTime('open');
             });
         },
+        
         close:       function () {
             logWithElapsedTime('closing');
             return Q.delay(1000).then(function () {
                 logWithElapsedTime('closed');
             });
         }
+        
     });
 
 //Queue some jobs
