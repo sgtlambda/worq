@@ -1,6 +1,6 @@
 {
   "name":            "worq",
-  "version":         "0.0.1",
+  "version":         "0.0.2",
   "description":     "Promise-based job queue that opens on demand and closes after a specified interval of inactivity",
   "main":            "lib/Worqer.js",
   "scripts":         {
@@ -12,7 +12,7 @@
   },
   "repository":      {
     "type": "git",
-    "url":  "https://github.com/jmversteeg/magic-handle"
+    "url":  "https://github.com/jmversteeg/worq"
   },
   "keywords":        [
     "worker",
@@ -34,9 +34,9 @@
   "author":          "JM Versteeg",
   "license":         "MIT",
   "bugs":            {
-    "url": "https://github.com/jmversteeg/magic-handle/issues"
+    "url": "https://github.com/jmversteeg/worq/issues"
   },
-  "homepage":        "https://github.com/jmversteeg/magic-handle",
+  "homepage":        "https://github.com/jmversteeg/worq",
   "dependencies":    {
     "functionify": "^1.0.0",
     "lodash":      "^3.3.1",
