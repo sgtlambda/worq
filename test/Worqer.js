@@ -105,7 +105,7 @@ describe('Worqer', function () {
 
     it('should reject the promise with the error if one is thrown', function (done) {
         var jobError;
-        handle.process('baz').then(null, function (error) {
+        handle.process('baz').catch(function (error) {
             jobError = error;
         });
         // In 15 ticks, let's check for the error

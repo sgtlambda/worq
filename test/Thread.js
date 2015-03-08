@@ -10,7 +10,7 @@ describe('Thread', function () {
         thread.should.have.property('job');
     });
 
-    describe('#isOpen', function () {
+    describe('isOpen()', function () {
 
         it('should return false if the job property is not null', function () {
             thread.isOpen().should.be.true;
