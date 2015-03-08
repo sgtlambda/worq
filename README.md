@@ -1,7 +1,5 @@
 # worq
 [![Build Status][travis-image]][travis-url]
-[![dependency Status][david-image]][david-url]
-[![devDependency Status][david-dev-image]][david-dev-url]
 [![Code Quality][codeclimate-image]][codeclimate-url]
 [![Code Coverage][coveralls-image]][coveralls-url]
 [![NPM Version][npm-image]][npm-url]
@@ -88,10 +86,13 @@ The output of above code:
 
 MIT © JM Versteeg
 
+[![dependency Status][david-image]][david-url]
+[![devDependency Status][david-dev-image]][david-dev-url]
+
 [travis-image]: https://img.shields.io/travis/jmversteeg/worq.svg?style=flat-square
 [travis-url]: https://travis-ci.org/jmversteeg/worq
 
-[codeclimate-image]: https://img.shields.io/codeclimate/github/jmversteeg/worq.svg
+[codeclimate-image]: https://img.shields.io/codeclimate/github/jmversteeg/worq.svg?style=flat-square
 [codeclimate-url]: https://codeclimate.com/github/jmversteeg/worq
 
 [david-image]: https://img.shields.io/david/jmversteeg/worq.svg?style=flat-square
