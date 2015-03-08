@@ -1,6 +1,6 @@
 {
   "name":            "worq",
-  "version":         "0.0.3",
+  "version":         "0.0.4",
   "description":     "Promise-based job queue that opens on demand and closes after a specified interval of inactivity",
   "main":            "lib/Worqer.js",
   "scripts":         {
