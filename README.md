@@ -31,27 +31,27 @@ var start              = new Date().getTime(),
 
 // Declare the Worqer
 var handle = new Worqer(
-    function () {
-        logWithElapsedTime('opening');
-        return Q.delay(1000).then(function () {
-            logWithElapsedTime('open');
-        });
-    },
     function (data, threadNo) {
-        logWithElapsedTime('Performing lengthy operations on ' + data + 
+        logWithElapsedTime('Performing lengthy operations on ' + data +
         ' (thread ' + threadNo + ')');
         return Q.delay(1000).then(function () {
             return data.toUpperCase();
         });
-    },
-    function () {
-        logWithElapsedTime('closing');
-        return Q.delay(1000).then(function () {
-            logWithElapsedTime('closed');
-        });
     }, {
         concurrency: 2,
-        timeout:     3000
+        timeout:     3000,
+        open:        function () {
+            logWithElapsedTime('opening');
+            return Q.delay(1000).then(function () {
+                logWithElapsedTime('open');
+            });
+        },
+        close:       function () {
+            logWithElapsedTime('closing');
+            return Q.delay(1000).then(function () {
+                logWithElapsedTime('closed');
+            });
+        }
     });
 
 //Queue some jobs

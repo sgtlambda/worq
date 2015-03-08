@@ -6,11 +6,7 @@ describe('Worqer', function () {
 
     var open = false,
         tickLength = 10,
-        handle = new Worqer(function () {
-            return Q.delay(tickLength * 10).then(function () {
-                open = true;
-            });
-        }, function (data) {
+        fnProcess = function (data) {
             if (data === 'bar')
                 return Q('foo').delay(tickLength * 10);
             if (data === 'baz')
@@ -18,12 +14,22 @@ describe('Worqer', function () {
                     throw new Error('baz is not the word');
                 });
             return Q.delay(tickLength * 10);
-        }, function () {
+        },
+        fnOpen = function () {
+            return Q.delay(tickLength * 10).then(function () {
+                open = true;
+            });
+        },
+        fnClose = function () {
             return Q.delay(tickLength * 5).then(function () {
                 open = false;
             });
-        }, {
+        };
 
+    var handle = new Worqer(fnProcess,
+        {
+            open:        fnOpen,
+            close:       fnClose,
             timeout:     20 * tickLength,
             concurrency: 1
         });
