@@ -156,4 +156,25 @@ describe('Worqer', function () {
         }, tickLength);
     });
 
+    it('should provide a default processor function in case none is defined', function (done) {
+        var defaultHandler = new Worqer();
+        defaultHandler.process(Q.delay(tickLength * 10));
+        defaultHandler.process(function () {
+            return 'bar';
+        }).then(function (result) {
+            result.should.be.exactly('bar');
+        });
+        defaultHandler.process('foobar').then(function (result) {
+            result.should.be.exactly('foobar');
+        });
+        setTimeout(function () {
+            defaultHandler.hasJobsPending().should.be.true;
+        }, tickLength * 5);
+
+        setTimeout(function () {
+            defaultHandler.hasJobsPending().should.be.false;
+            done();
+        }, tickLength * 15);
+    });
+
 });
