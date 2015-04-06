@@ -4,7 +4,7 @@
 [![Code Coverage][coveralls-image]][coveralls-url]
 [![NPM Version][npm-image]][npm-url]
 
-Promise-based job queue that opens on demand and closes after a specified interval of inactivity
+Promise-based threaded job queue
 
 ## Install
 
