@@ -15,7 +15,7 @@ describe('Worqer', function () {
     var openedSpy;
     var closedSpy;
 
-    var tickLength = 10;
+    var tickLength = 1;
 
     this.beforeEach(function () {
 
@@ -54,19 +54,18 @@ describe('Worqer', function () {
 
     });
 
-    it('should wait for the handle to open before starting the job', function (done) {
+    it('should wait for the handle to open before starting the job', function () {
 
         handle.process('bar');
         handle.process('foobar');
 
-        setTimeout(function () {
-            handle._fn.process.should.not.have.been.called;
-        }, tickLength * 5);
+        Q.delay(tickLength * 5).then(function () {
+            return handle._fn.process.should.not.have.been.called;
+        });
 
-        setTimeout(function () {
+        return Q.delay(tickLength * 15).then(function () {
             openedSpy.should.have.been.calledBefore(handle._fn.process);
-            done();
-        }, tickLength * 15);
+        });
 
     });
 
