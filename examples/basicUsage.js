@@ -15,12 +15,10 @@ var start              = new Date().getTime(),
 // Declare the Worqer
 var handle = new Worqer(
 
-    function (data, threadNo) {
+    function (threadNo, data) {
         logWithElapsedTime('Performing lengthy operations on ' + data +
         ' (thread ' + threadNo + ')');
-        return Q.delay(1000).then(function () {
-            return data.toUpperCase();
-        });
+        return Q(data.toUpperCase()).delay(1000);
     }, {
 
         concurrency: 2,
@@ -28,16 +26,12 @@ var handle = new Worqer(
 
         open:        function () {
             logWithElapsedTime('opening');
-            return Q.delay(1000).then(function () {
-                logWithElapsedTime('open');
-            });
+            return Q('open').delay(1000).then(logWithElapsedTime);
         },
 
         close:       function () {
             logWithElapsedTime('closing');
-            return Q.delay(1000).then(function () {
-                logWithElapsedTime('closed');
-            });
+            return Q('closed').delay(1000).then(logWithElapsedTime);
         }
 
     });
