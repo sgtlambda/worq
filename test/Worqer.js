@@ -5,7 +5,7 @@ var should = require("should"),
 describe('Worqer', function () {
 
     var open = false,
-        tickLength = 10,
+        tickLength = 16,
         fnProcess = function (data) {
             if (data === 'bar')
                 return Q('foo').delay(tickLength * 10);
