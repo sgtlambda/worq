@@ -12,7 +12,7 @@ Promise-based threaded job queue
 $ npm install --save worq
 ```
 
-## Example usage
+## Usage
 
 ```js
 // This simple example demonstrates basic usage of the Worqer API.
