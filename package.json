@@ -44,10 +44,13 @@
     "q":           "^1.2.0"
   },
   "devDependencies": {
-    "coveralls": "^2.11.2",
-    "jsdoc":     "^3.3.0-beta2",
-    "jshint":    "^2.6.3",
-    "mocha":     "^2.1.0",
-    "should":    "^5.1.0"
+    "chai":             "^2.2.0",
+    "chai-as-promised": "^4.3.0",
+    "coveralls":        "^2.11.2",
+    "jsdoc":            "^3.3.0-beta2",
+    "jshint":           "^2.6.3",
+    "mocha":            "^2.1.0",
+    "sinon":            "^1.14.1",
+    "sinon-chai":       "^2.7.0"
   }
 }

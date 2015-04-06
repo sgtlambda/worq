@@ -1,5 +1,8 @@
-var should = require('should'),
-    Job    = require('../lib/Job'),
+'use strict';
+
+require('./support/bootstrap');
+
+var Job    = require('../lib/Job'),
     Thread = require('../lib/Thread');
 
 describe('Thread', function () {
