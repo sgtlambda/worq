@@ -15,7 +15,7 @@ describe('Worqer', function () {
     var openedSpy;
     var closedSpy;
 
-    var tickLength = 1;
+    var tickLength = 5;
 
     this.beforeEach(function () {
 

@@ -5,7 +5,7 @@ require('./support/bootstrap');
 var pending = require('../lib/PendingPromise');
 
 describe('PendingPromise', function () {
-    var tickLength = 1;
+    var tickLength = 5;
     it('should resolve after the defined timeout', function (done) {
         var promise = pending(tickLength * 2);
         setTimeout(function () {
