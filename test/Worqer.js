@@ -7,6 +7,14 @@ var Worqer      = require('../'),
     sinon       = require('sinon'),
     Q           = require('q');
 
+var spyOnWorqer = function (worqer) {
+
+    sinon.spy(worqer._fn, 'open');
+    sinon.spy(worqer._fn, 'close');
+    sinon.spy(worqer._fn, 'process');
+
+};
+
 describe('Worqer', function () {
 
     var handle;
@@ -38,9 +46,7 @@ describe('Worqer', function () {
             concurrency: 1
         });
 
-        sinon.spy(handle._fn, 'open');
-        sinon.spy(handle._fn, 'close');
-        sinon.spy(handle._fn, 'process');
+        spyOnWorqer(handle);
 
     });
 
@@ -146,6 +152,23 @@ describe('Worqer', function () {
 
         var defaultHandler = new Worqer();
         return defaultHandler.process('foobar').should.eventually.equal('foobar');
+
+    });
+
+    it('should close immediately if no timeout is provided', function (done) {
+
+        var defaultHandler = new Worqer();
+        spyOnWorqer(defaultHandler);
+        defaultHandler.process(Q('boofar').delay(tickLength * 10));
+
+        setTimeout(function () {
+            defaultHandler._fn.process.should.have.been.called;
+        }, tickLength);
+
+        setTimeout(function () {
+            defaultHandler._fn.close.should.have.been.called;
+            done();
+        }, tickLength * 11);
 
     });
 

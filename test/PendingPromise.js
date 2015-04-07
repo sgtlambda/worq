@@ -22,7 +22,7 @@ describe('PendingPromise', function () {
             var promise = pending(tickLength * 2, true, null, new Error(reason));
             setTimeout(function () {
                 promise.cancel(false);
-            }, tickLength * 1);
+            }, tickLength);
             return promise.should.be.rejectedWith(reason);
         });
     });
