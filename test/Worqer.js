@@ -31,19 +31,20 @@ describe('Worqer', function () {
         closedSpy = sinon.spy();
         finishedJobSpy = sinon.spy();
 
-        handle = new Worqer(function (threadNo, data) {
+        handle = new Worqer(function (data, threadNo) {
             return Q.delay(tickLength * 10).then(function () {
                 return functionify(data)();
             });
         }, {
-            open:        function () {
+            open:         function () {
                 return Q.delay(tickLength * 10).then(openedSpy);
             },
-            close:       function () {
+            close:        function () {
                 return Q.delay(tickLength * 5).then(closedSpy);
             },
-            timeout:     20 * tickLength,
-            concurrency: 1
+            timeout:      20 * tickLength,
+            concurrency:  1,
+            passThreadNo: true
         });
 
         spyOnWorqer(handle);
@@ -155,20 +156,17 @@ describe('Worqer', function () {
 
     });
 
-    it('should close immediately if no timeout is provided', function (done) {
+    it('should close immediately if the timeout is zero', function (done) {
 
         var defaultHandler = new Worqer();
         spyOnWorqer(defaultHandler);
-        defaultHandler.process(Q('boofar').delay(tickLength * 10));
+        defaultHandler.process('beepboop');
 
         setTimeout(function () {
             defaultHandler._fn.process.should.have.been.called;
-        }, tickLength);
-
-        setTimeout(function () {
-            defaultHandler._fn.close.should.have.been.called;
+            defaultHandler.isClosed().should.be.true;
             done();
-        }, tickLength * 11);
+        }, tickLength);
 
     });
 
