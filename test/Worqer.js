@@ -5,7 +5,7 @@ require('./support/bootstrap');
 var Worqer      = require('../'),
     functionify = require('functionify'),
     sinon       = require('sinon'),
-    Q           = require('q');
+    Promise     = require('bluebird');
 
 var spyOnWorqer = function (worqer) {
 
@@ -32,15 +32,15 @@ describe('Worqer', function () {
         finishedJobSpy = sinon.spy();
 
         handle = new Worqer(function (data, threadNo) {
-            return Q.delay(tickLength * 10).then(function () {
+            return Promise.delay(tickLength * 10).then(function () {
                 return functionify(data)();
             });
         }, {
             open:         function () {
-                return Q.delay(tickLength * 10).then(openedSpy);
+                return Promise.delay(tickLength * 10).then(openedSpy);
             },
             close:        function () {
-                return Q.delay(tickLength * 5).then(closedSpy);
+                return Promise.delay(tickLength * 5).then(closedSpy);
             },
             timeout:      20 * tickLength,
             concurrency:  1,
@@ -55,7 +55,7 @@ describe('Worqer', function () {
 
         handle.process('bar');
 
-        return Q.delay(tickLength * 5).then(function () {
+        return Promise.delay(tickLength * 5).then(function () {
             return handle._fn.open.should.have.been.called;
         });
 
@@ -66,11 +66,11 @@ describe('Worqer', function () {
         handle.process('bar');
         handle.process('foobar');
 
-        Q.delay(tickLength * 5).then(function () {
+        Promise.delay(tickLength * 5).then(function () {
             return handle._fn.process.should.not.have.been.called;
         });
 
-        return Q.delay(tickLength * 15).then(function () {
+        return Promise.delay(tickLength * 15).then(function () {
             openedSpy.should.have.been.calledBefore(handle._fn.process);
         });
 
@@ -83,7 +83,7 @@ describe('Worqer', function () {
         handle.process(jobSpy);
         handle.process('bar');
 
-        return Q.delay(tickLength * 25).then(function () {
+        return Promise.delay(tickLength * 25).then(function () {
             return jobSpy.should.have.been.calledBefore(handle._fn.process.withArgs('bar'));
         });
 
@@ -93,7 +93,7 @@ describe('Worqer', function () {
 
         handle.process('bar');
 
-        return Q.delay(tickLength * 30).then(function () {
+        return Promise.delay(tickLength * 30).then(function () {
             return handle._fn.close.should.not.have.been.called;
         });
 
@@ -116,7 +116,7 @@ describe('Worqer', function () {
 
         handle.process('bar');
 
-        return Q.delay(tickLength * 45).then(function () {
+        return Promise.delay(tickLength * 45).then(function () {
             return handle._fn.close.should.have.been.called;
         });
 
@@ -130,7 +130,7 @@ describe('Worqer', function () {
         handle.process('foobar').then(jobSpy);
         handle.close(true);
 
-        return Q.delay(tickLength * 40).then(function () {
+        return Promise.delay(tickLength * 40).then(function () {
             jobSpy.should.have.been.calledBefore(handle._fn.close);
         });
 
@@ -166,7 +166,7 @@ describe('Worqer', function () {
             defaultHandler._fn.process.should.have.been.called;
             defaultHandler.isClosed().should.be.true;
             done();
-        }, tickLength);
+        }, tickLength * 2);
 
     });
 
