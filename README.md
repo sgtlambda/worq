@@ -12,15 +12,13 @@ Promise-based threaded job queue
 $ npm install --save worq
 ```
 
-## Usage
+## Example
 
 ```js
 var Worqer = require('worq'),
     exec   = require('child-process-promise').exec;
 
-var execQueue = new Worqer(exec, {
-    concurrency: 1
-});
+var execQueue = new Worqer(exec);
 
 execQueue.process('ls -al').then(function (result) {
     console.log(result.stdout);
@@ -32,6 +30,60 @@ execQueue.process('pwd').then(function (result) {
 
 // Above commands will be executed in series
 ```
+
+## Usage
+
+##### `[ constructor ] Worqer( [ Function.<Promise>, optional ] processor, [ Object, optional ] options )`
+
+Creates a new worqer with an optionally specified `processor` function. The `processor` function **may** have any signature and **must** return a promise for the resulting value.
+
+```js
+var options = {
+
+    // Number of jobs that can be ran simultaneously
+    concurrency: 1, 
+    
+    // A function that is ran before any jobs are ran when coming from a closed state
+    open: undefined,
+    
+    // A function that is ran when the job queue is empty and the timeout expires or when the handle is manually closed
+    close: undefined,
+    
+    // The timeout (delay before the handle is closed when the job queue is empty)
+    timeout: 0,
+    
+    // Whether to pass the thread number as the last argument to the process function
+    passThreadNo: false
+};
+```
+
+##### `[ Promise ] Worqer.process( [ data... ]  )`
+
+Adds the given data to the job queue, returns a promise for the output data. Any arguments passed to this function will be passed to the Worqer's process function in the same order.
+
+##### `[ boolean ] Worqer.hasActiveThreads( )`
+
+Determines whether any of the threads is running a job
+
+##### `[ boolean ] Worqer.hasJobsPending( )`
+
+Returns whether there are jobs waiting to be handled in the queue
+
+##### `[ boolean ] Worqer.isOpen( )`
+
+Returns whether the handle is currently open
+
+##### `[ boolean ] Worqer.isClosed()`
+
+Returns whether the handle is currently closed
+
+> Note that even though the return values of `Worqer.isOpen()` and `Worqer.isClosed()` are [mutually exclusive](http://en.wikipedia.org/wiki/Mutually_exclusive_events), they are by no means [collectively exhaustive](http://en.wikipedia.org/wiki/Collectively_exhaustive_events), since the Worqer could be in the middle of an open or close operation.
+
+##### `[ Promise ] Worqer.close( [ boolean, optional ] graceful = true )`
+
+Requests for the handle to close
+
+**graceful** - Whether to let jobs in the job queue run first. If not, only lets currently running jobs finish and rejects any other jobs in the the job queue.
 
 ## License
 
