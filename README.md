@@ -43,10 +43,13 @@ var options = {
     // Number of jobs that can be ran simultaneously
     concurrency: 1, 
     
-    // A function that is ran before any jobs are ran when coming from a closed state
+    // A function that is invoked, if the handle is in a closed state, before any jobs are processed.
+    // May return a promise.
     open: undefined,
     
-    // A function that is ran when the job queue is empty and the timeout expires or when the handle is manually closed
+    // A function that is invoked when the job queue is empty and the timeout expires or when the handle is manually closed.
+    // Executed before the promise returned by the .close() method resolves.
+    // May return a promise.
     close: undefined,
     
     // The timeout (delay before the handle is closed when the job queue is empty)
@@ -81,7 +84,7 @@ Returns whether the handle is currently closed
 
 ##### `[ Promise ] Worqer.close( [ boolean, optional ] graceful = true )`
 
-Requests for the handle to close
+Returns a promise for the handle to close.
 
 **graceful** - Whether to let jobs in the job queue run first. If not, only lets currently running jobs finish and rejects any other jobs in the the job queue.
 
