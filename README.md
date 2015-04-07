@@ -33,7 +33,7 @@ execQueue.process('pwd').then(function (result) {
 
 ## Usage
 
-##### `[ constructor ] Worqer( [ Function.<Promise>, optional ] processor, [ Object, optional ] options )`
+##### `new Worqer( [ Function.<Promise>, optional ] processor, [ Object, optional ] options )`
 
 Creates a new worqer with an optionally specified `processor` function. The `processor` function **may** have any signature and **must** return a promise for the resulting value.
 
