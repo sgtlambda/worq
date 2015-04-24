@@ -40,7 +40,7 @@ Creates a new worqer with an optionally specified `processor` function. The `pro
 ```js
 var options = {
 
-    // Number of jobs that can be ran simultaneously
+    // The number of jobs that can run simultaneously
     concurrency: 1, 
     
     // A function that is invoked, if the handle is in a closed state, before any jobs are processed.
