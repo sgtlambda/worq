@@ -4,7 +4,7 @@
 [![Code Coverage][coveralls-image]][coveralls-url]
 [![NPM Version][npm-image]][npm-url]
 
-Promise-based threaded job queue
+A promising job queue
 
 ## Install
 

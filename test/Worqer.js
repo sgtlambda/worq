@@ -116,7 +116,7 @@ describe('Worqer', function () {
 
         handle.process('bar');
 
-        return Promise.delay(tickLength * 45).then(function () {
+        return Promise.delay(tickLength * 50).then(function () {
             return handle._fn.close.should.have.been.called;
         });
 
