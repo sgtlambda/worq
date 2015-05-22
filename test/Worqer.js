@@ -164,9 +164,41 @@ describe('Worqer', function () {
 
         setTimeout(function () {
             defaultHandler._fn.process.should.have.been.called;
-            defaultHandler.isClosed().should.be.true;
+            defaultHandler._state.should.equal(Worqer.states.CLOSED);
             done();
         }, tickLength * 2);
+
+    });
+
+    describe('.isOpen()', function () {
+
+        it('should return true only if the Worqer state is equal to OPEN', function () {
+            var worqer = new Worqer();
+            worqer._state = Worqer.states.CLOSED;
+            worqer.isOpen().should.be.false;
+            worqer._state = Worqer.states.OPENING;
+            worqer.isOpen().should.be.false;
+            worqer._state = Worqer.states.OPEN;
+            worqer.isOpen().should.be.true;
+            worqer._state = Worqer.states.CLOSING;
+            worqer.isOpen().should.be.false;
+        });
+
+    });
+
+    describe('.isClosed()', function () {
+
+        it('should return true only if the Worqer state is equal to CLOSED', function () {
+            var worqer = new Worqer();
+            worqer._state = Worqer.states.CLOSED;
+            worqer.isClosed().should.be.true;
+            worqer._state = Worqer.states.OPENING;
+            worqer.isClosed().should.be.false;
+            worqer._state = Worqer.states.OPEN;
+            worqer.isClosed().should.be.false;
+            worqer._state = Worqer.states.CLOSING;
+            worqer.isClosed().should.be.false;
+        });
 
     });
 
