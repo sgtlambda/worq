@@ -39,17 +39,17 @@
   },
   "homepage":        "https://github.com/jmversteeg/worq",
   "dependencies":    {
-    "bluebird":    "^2.9.24",
-    "functionify": "^1.0.1",
-    "lodash":      "^3.7.0"
+    "bluebird":    "^2.9.25",
+    "functionify": "^1.0.2",
+    "lodash":      "^3.9.1"
   },
   "devDependencies": {
-    "chai":             "^2.2.0",
+    "chai":             "^2.3.0",
     "chai-as-promised": "^5.0.0",
     "coveralls":        "^2.11.2",
-    "jsdoc":            "^3.3.0-beta3",
+    "jsdoc":            "^3.3.0",
     "jshint":           "^2.7.0",
-    "mocha":            "^2.2.4",
+    "mocha":            "^2.2.5",
     "sinon":            "^1.14.1",
     "sinon-chai":       "^2.7.0"
   }
