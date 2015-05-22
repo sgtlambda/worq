@@ -1,6 +1,6 @@
 {
   "name":            "worq",
-  "version":         "0.2.3",
+  "version":         "1.0.0",
   "description":     "A promising job queue",
   "main":            "lib/Worqer.js",
   "scripts":         {
