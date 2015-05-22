@@ -17,41 +17,41 @@ var spyOnWorqer = function (worqer) {
 
 describe('Worqer', function () {
 
-    describe('integration tests', function () {
+    var handle;
 
-        var handle;
+    var finishedJobSpy;
+    var openedSpy;
+    var closedSpy;
 
-        var finishedJobSpy;
-        var openedSpy;
-        var closedSpy;
+    var tickLength = 5;
 
-        var tickLength = 5;
+    this.beforeEach(function () {
 
-        this.beforeEach(function () {
+        openedSpy = sinon.spy();
+        closedSpy = sinon.spy();
+        finishedJobSpy = sinon.spy();
 
-            openedSpy = sinon.spy();
-            closedSpy = sinon.spy();
-            finishedJobSpy = sinon.spy();
-
-            handle = new Worqer(function (data, threadNo) {
-                return Promise.delay(tickLength * 10).then(function () {
-                    return functionify(data)();
-                });
-            }, {
-                open:         function () {
-                    return Promise.delay(tickLength * 10).then(openedSpy);
-                },
-                close:        function () {
-                    return Promise.delay(tickLength * 5).then(closedSpy);
-                },
-                timeout:      20 * tickLength,
-                concurrency:  1,
-                passThreadNo: true
+        handle = new Worqer(function (data, threadNo) {
+            return Promise.delay(tickLength * 10).then(function () {
+                return functionify(data)();
             });
-
-            spyOnWorqer(handle);
-
+        }, {
+            open:         function () {
+                return Promise.delay(tickLength * 10).then(openedSpy);
+            },
+            close:        function () {
+                return Promise.delay(tickLength * 5).then(closedSpy);
+            },
+            timeout:      20 * tickLength,
+            concurrency:  1,
+            passThreadNo: true
         });
+
+        spyOnWorqer(handle);
+
+    });
+
+    describe('integration', function () {
 
         it('should open whenever a job is added', function () {
 
@@ -124,6 +124,17 @@ describe('Worqer', function () {
 
         });
 
+        it('should close immediately upon calling .close() if there are no jobs in the queue', function () {
+
+            handle.process('bar');
+
+            return Promise.delay(tickLength * 25).then(function () {
+                handle.close(true);
+                handle._fn.close.should.have.been.called;
+            });
+
+        });
+
         it('should wait until the queue is empty before closing gracefully', function () {
 
             var jobSpy = sinon.spy();
@@ -171,6 +182,7 @@ describe('Worqer', function () {
             }, tickLength * 2);
 
         });
+
     });
 
     describe('.isOpen()', function () {
