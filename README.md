@@ -22,11 +22,11 @@ var execQueue = new Worqer(exec);
 
 execQueue.process('ls -al').then(function (result) {
     console.log(result.stdout);
-}).done();
+});
 
 execQueue.process('pwd').then(function (result) {
     console.log(result.stdout);
-}).done();
+});
 
 // Above commands will be executed in series
 ```
