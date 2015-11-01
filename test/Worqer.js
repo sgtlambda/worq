@@ -23,12 +23,12 @@ describe('Worqer', function () {
     var openedSpy;
     var closedSpy;
 
-    var tickLength = 5;
+    var tickLength = 3;
 
     this.beforeEach(function () {
 
-        openedSpy = sinon.spy();
-        closedSpy = sinon.spy();
+        openedSpy      = sinon.spy();
+        closedSpy      = sinon.spy();
         finishedJobSpy = sinon.spy();
 
         handle = new Worqer(function (data, threadNo) {
@@ -51,144 +51,140 @@ describe('Worqer', function () {
 
     });
 
-    describe('integration', function () {
+    it('should open whenever a job is added', function () {
 
-        it('should open whenever a job is added', function () {
+        handle.process('bar');
 
-            handle.process('bar');
-
-            return Promise.delay(tickLength * 5).then(function () {
-                return handle._fn.open.should.have.been.called;
-            });
-
+        return Promise.delay(tickLength * 5).then(function () {
+            return handle._fn.open.should.have.been.called;
         });
 
-        it('should wait for the handle to open before starting the job', function () {
+    });
 
-            handle.process('bar');
-            handle.process('foobar');
+    it('should wait for the handle to open before starting the job', function () {
 
-            Promise.delay(tickLength * 5).then(function () {
-                return handle._fn.process.should.not.have.been.called;
-            });
+        handle.process('bar');
+        handle.process('foobar');
 
-            return Promise.delay(tickLength * 15).then(function () {
-                openedSpy.should.have.been.calledBefore(handle._fn.process);
-            });
-
+        Promise.delay(tickLength * 5).then(function () {
+            return handle._fn.process.should.not.have.been.called;
         });
 
-        it('should wait for the active job to finish', function () {
-
-            var jobSpy = sinon.spy();
-
-            handle.process(jobSpy);
-            handle.process('bar');
-
-            return Promise.delay(tickLength * 25).then(function () {
-                return jobSpy.should.have.been.calledBefore(handle._fn.process.withArgs('bar'));
-            });
-
+        return Promise.delay(tickLength * 15).then(function () {
+            openedSpy.should.have.been.calledBefore(handle._fn.process);
         });
 
-        it('should stay open as long as the timeout is not exceeded', function () {
+    });
 
-            handle.process('bar');
+    it('should wait for the active job to finish', function () {
 
-            return Promise.delay(tickLength * 30).then(function () {
-                return handle._fn.close.should.not.have.been.called;
-            });
+        var jobSpy = sinon.spy();
 
+        handle.process(jobSpy);
+        handle.process('bar');
+
+        return Promise.delay(tickLength * 25).then(function () {
+            return jobSpy.should.have.been.calledBefore(handle._fn.process.withArgs('bar'));
         });
 
-        it('should return a promise for the processed values', function () {
+    });
 
-            return handle.process('bar').should.eventually.equal('bar');
+    it('should stay open as long as the timeout is not exceeded', function () {
 
+        handle.process('bar');
+
+        return Promise.delay(tickLength * 30).then(function () {
+            return handle._fn.close.should.not.have.been.called;
         });
 
-        it('should reject the promise with the error if one is thrown', function () {
+    });
 
-            var throwsError = sinon.stub().throws(new Error('baz is not the word'));
-            return handle.process(throwsError).should.be.rejectedWith('baz is not the word');
+    it('should return a promise for the processed values', function () {
 
+        return handle.process('bar').should.eventually.equal('bar');
+
+    });
+
+    it('should reject the promise with the error if one is thrown', function () {
+
+        var throwsError = sinon.stub().throws(new Error('baz is not the word'));
+        return handle.process(throwsError).should.be.rejectedWith('baz is not the word');
+
+    });
+
+    it('should automatically close when the timeout is exceeded', function () {
+
+        handle.process('bar');
+
+        return Promise.delay(tickLength * 50).then(function () {
+            return handle._fn.close.should.have.been.called;
         });
 
-        it('should automatically close when the timeout is exceeded', function () {
+    });
 
-            handle.process('bar');
+    it('should close immediately upon calling .close() if there are no jobs in the queue', function () {
 
-            return Promise.delay(tickLength * 50).then(function () {
-                return handle._fn.close.should.have.been.called;
-            });
+        handle.process('bar');
 
-        });
-
-        it('should close immediately upon calling .close() if there are no jobs in the queue', function () {
-
-            handle.process('bar');
-
-            return Promise.delay(tickLength * 25).then(function () {
-                handle.close(true);
-                handle._fn.close.should.have.been.called;
-            });
-
-        });
-
-        it('should wait until the queue is empty before closing gracefully', function () {
-
-            var jobSpy = sinon.spy();
-
-            handle.process('bar');
-            handle.process('foobar').then(jobSpy);
+        return Promise.delay(tickLength * 25).then(function () {
             handle.close(true);
-
-            return Promise.delay(tickLength * 40).then(function () {
-                jobSpy.should.have.been.calledBefore(handle._fn.close);
-            });
-
+            handle._fn.close.should.have.been.called;
         });
 
-        it('should reject the jobs in the queue when closing forcefully', function () {
+    });
 
-            handle.process('foo');
-            var job2 = handle.process('foobar');
+    it('should wait until the queue is empty before closing gracefully', function () {
 
-            setTimeout(function () {
-                handle.close(false);
-            }, tickLength * 15);
+        var jobSpy = sinon.spy();
 
-            return job2.should.be.rejectedWith('The handle was closed forcefully');
+        handle.process('bar');
+        handle.process('foobar').then(jobSpy);
+        handle.close(true);
 
+        return Promise.delay(tickLength * 40).then(function () {
+            jobSpy.should.have.been.calledBefore(handle._fn.close);
         });
 
-        it('should provide a default processor function in case none is defined', function () {
+    });
 
-            var defaultHandler = new Worqer();
-            return defaultHandler.process('foobar').should.eventually.equal('foobar');
+    it('should reject the jobs in the queue when closing forcefully', function () {
 
-        });
+        handle.process('foo');
+        var job2 = handle.process('foobar');
 
-        it('should close immediately if the timeout is zero', function (done) {
+        setTimeout(function () {
+            handle.close(false);
+        }, tickLength * 15);
 
-            var defaultHandler = new Worqer();
-            spyOnWorqer(defaultHandler);
-            defaultHandler.process('beepboop');
+        return job2.should.be.rejectedWith('The handle was closed forcefully');
 
-            setTimeout(function () {
-                defaultHandler._fn.process.should.have.been.called;
-                defaultHandler._state.should.equal(Worqer.states.CLOSED);
-                done();
-            }, tickLength * 2);
+    });
 
-        });
+    it('should provide a default processor function in case none is defined', function () {
+
+        var defaultHandler = new Worqer();
+        return defaultHandler.process('foobar').should.eventually.equal('foobar');
+
+    });
+
+    it('should close immediately if the timeout is zero', function (done) {
+
+        var defaultHandler = new Worqer();
+        spyOnWorqer(defaultHandler);
+        defaultHandler.process('beepboop');
+
+        setTimeout(function () {
+            defaultHandler._fn.process.should.have.been.called;
+            defaultHandler._state.should.equal(Worqer.states.CLOSED);
+            done();
+        }, tickLength * 2);
 
     });
 
     describe('.isOpen()', function () {
 
         it('should return true only if the Worqer state is equal to OPEN', function () {
-            var worqer = new Worqer();
+            var worqer    = new Worqer();
             worqer._state = Worqer.states.CLOSED;
             worqer.isOpen().should.be.false;
             worqer._state = Worqer.states.OPENING;
@@ -204,7 +200,7 @@ describe('Worqer', function () {
     describe('.isClosed()', function () {
 
         it('should return true only if the Worqer state is equal to CLOSED', function () {
-            var worqer = new Worqer();
+            var worqer    = new Worqer();
             worqer._state = Worqer.states.CLOSED;
             worqer.isClosed().should.be.true;
             worqer._state = Worqer.states.OPENING;
