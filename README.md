@@ -13,7 +13,7 @@
 $ npm install --save worq
 ```
 
-## Example
+## Usage
 
 ```js
 var Worqer = require('worq'),
@@ -32,7 +32,7 @@ execQueue.process('pwd').then(function (result) {
 // Above commands will be executed in series
 ```
 
-## Usage
+## API
 
 ##### `new Worqer( [ Function.<Promise>, optional ] processor, [ Object, optional ] options )`
 
