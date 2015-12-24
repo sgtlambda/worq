@@ -2,6 +2,7 @@
 
 require('./support/bootstrap');
 
+const _       = require('lodash');
 const Queue   = require('../');
 const sinon   = require('sinon');
 const Promise = require('bluebird');
@@ -64,6 +65,16 @@ describe('Queue', () => {
                 throw new Error('Should not fulfill');
             }, () => {
                 spy.should.not.have.been.called;
+            });
+        });
+
+        it('should run the jobs in concurrency', () => {
+            queue    = new Queue({concurrency: 3});
+            let time = Date.now();
+            return queue.run(_.times(9, () => () => Promise.delay(50))).then(() => {
+                let passed = Date.now() - time;
+                passed.should.be.below(175);
+                passed.should.be.above(125);
             });
         });
     });
