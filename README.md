@@ -32,7 +32,7 @@ queue.run([
     
 ]).then(results => {
 
-    // results will contain an array of the return / fulfillment values
+    // results will be an array containing the return / fulfillment values
     
 });
 ```
