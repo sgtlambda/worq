@@ -6,7 +6,7 @@ node_js:
   - '4.2'
   - 'stable'
 before_script:
-  - npm install -g istanbul
+  - npm install -g istanbul eslint
   - npm run-script pretest
 script:
   - istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --recursive
