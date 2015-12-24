@@ -1,6 +1,8 @@
 # worq
 
-> A promising job queue
+> Promising job queue
+
+Run promises in series or with a configurable concurrency limit
 
 [![Build Status][travis-image]][travis-url]
 [![Code Quality][codeclimate-image]][codeclimate-url]
@@ -16,78 +18,49 @@ $ npm install --save worq
 ## Usage
 
 ```js
-var Worqer = require('worq'),
-    exec   = require('child-process-promise').exec;
+const Queue = require('worq');
 
-var execQueue = new Worqer(exec);
+var queue = new Queue();
 
-execQueue.process('ls -al').then(function (result) {
-    console.log(result.stdout);
+queue.run([
+    () => somePromisingFunction(),
+    () => someOtherPromisingFunction()
+    
+    // these functions will be executed in series
+    
+]).then(results => {
+
+    // results will contain an array of the fulfillment values
+    
 });
-
-execQueue.process('pwd').then(function (result) {
-    console.log(result.stdout);
-});
-
-// Above commands will be executed in series
 ```
 
 ## API
 
-##### `new Worqer( [ Function.<Promise>, optional ] processor, [ Object, optional ] options )`
+### `Queue([options])`
 
-Creates a new worqer with an optionally specified `processor` function. The `processor` function **may** have any signature and **must** return a promise for the resulting value.
+#### options
 
-```js
-var options = {
+##### concurrency
 
-    // The number of jobs that can run simultaneously
-    concurrency: 1, 
-    
-    // A function that is invoked, if the handle is in a closed state, before any jobs are processed.
-    // May return a promise.
-    open: undefined,
-    
-    // A function that is invoked when the job queue is empty and the timeout expires or when the handle is manually closed.
-    // Executed before the promise returned by the .close() method resolves.
-    // May return a promise.
-    close: undefined,
-    
-    // The timeout (delay before the handle is closed when the job queue is empty)
-    timeout: 0,
-    
-    // Whether to pass the thread number as the last argument to the process function
-    passThreadNo: false
-};
-```
+Type: `number`
+Default: `1`
 
-##### `[ Promise ] Worqer.process( [ data... ]  )`
+The maximum number of jobs that can run simultaneously
 
-Adds the given data to the job queue, returns a promise for the output data. Any arguments passed to this function will be passed to the Worqer's process function in the same order.
+### `Queue.run(jobs)`
 
-##### `[ boolean ] Worqer.hasActiveThreads( )`
+#### jobs
 
-Determines whether any of the threads is running a job
+Type: `Function[]`
 
-##### `[ boolean ] Worqer.hasJobsPending( )`
+An array of jobs. Jobs may return/throw regularly or return a promise.
 
-Returns whether there are jobs waiting to be handled in the queue
+Returns a promise for an array containing the fulfillment values in the same order.
 
-##### `[ boolean ] Worqer.isOpen( )`
+### `Queue.cancel()`
 
-Returns whether the handle is currently open
-
-##### `[ boolean ] Worqer.isClosed()`
-
-Returns whether the handle is currently closed
-
-> Note that even though the return values of `Worqer.isOpen()` and `Worqer.isClosed()` are [mutually exclusive](http://en.wikipedia.org/wiki/Mutually_exclusive_events), they are by no means [collectively exhaustive](http://en.wikipedia.org/wiki/Collectively_exhaustive_events), since the Worqer could be in the middle of an open or close operation.
-
-##### `[ Promise ] Worqer.close( [ boolean, optional ] graceful = true )`
-
-Returns a promise for the handle to close.
-
-**graceful** - Whether to let jobs in the job queue run first. If not, only lets currently running jobs finish and rejects any other jobs in the the job queue.
+Cancels the remaining jobs.
 
 ## License
 
