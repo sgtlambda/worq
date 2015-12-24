@@ -20,7 +20,7 @@ $ npm install --save worq
 ```js
 const Queue = require('worq');
 
-var queue = new Queue();
+let queue = new Queue();
 
 queue.run([
 
