@@ -37,7 +37,7 @@ queue.run([
 
 ## API
 
-### `Queue([options])`
+### Queue([options])
 
 #### options
 
@@ -48,7 +48,7 @@ Default: `1`
 
 The maximum number of jobs that can run simultaneously
 
-### `Queue.run(jobs)`
+### Queue.run(jobs)
 
 #### jobs
 
@@ -58,7 +58,7 @@ An array of jobs. Jobs may return/throw regularly or return a promise.
 
 Returns a promise for an array containing the fulfillment values in the same order.
 
-### `Queue.cancel()`
+### Queue.cancel()
 
 Cancels the remaining jobs.
 
