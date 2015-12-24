@@ -2,20 +2,45 @@
 
 require('./support/bootstrap');
 
-var Job    = require('../lib/Job');
+const Job = require('../lib/Job');
 
 describe('Job', function () {
 
-    var job = new Job(['foo']);
-
-    it('should expose a data property', function () {
-        job.getData().should.deep.equal(['foo']);
+    it('should emit fulfilled if the promise is fulfilled', function () {
+        let job = new Job(() => Promise.resolve());
+        return new Promise((fulfill, reject) => {
+            setTimeout(reject, 1000);
+            job.on('fulfilled', fulfill());
+            job.run();
+        });
     });
 
-    it('should provide the EventEmitter API', function () {
-        job.emit.should.be.Function;
-        job.on.should.be.Function;
-        job.once.should.be.Function;
+    it('should emit rejected if the promise is fulfilled', function () {
+        let job = new Job(() => Promise.reject());
+        return new Promise((fulfill, reject) => {
+            setTimeout(reject, 1000);
+            job.on('rejected', fulfill());
+            job.run();
+        });
     });
 
+    it('should emit fulfilled if a regular function does not throw any errors', function () {
+        let job = new Job(() => true);
+        return new Promise((fulfill, reject) => {
+            setTimeout(reject, 1000);
+            job.on('fulfilled', fulfill());
+            job.run();
+        });
+    });
+
+    it('should emit rejected if a regular function throws a error', function () {
+        let job = new Job(() => {
+            throw new Error();
+        });
+        return new Promise((fulfill, reject) => {
+            setTimeout(reject, 1000);
+            job.on('rejected', fulfill());
+            job.run();
+        });
+    });
 });

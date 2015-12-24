@@ -1,9 +1,10 @@
-var chai = require("chai");
-var chaiAsPromised = require("chai-as-promised");
-var sinon = require("sinon");
-var sinonChai = require("sinon-chai");
+'use strict';
 
-chai.use(chaiAsPromised);
-chai.use(sinonChai);
+const chai = require('chai');
+
+require('sinon');
+
+chai.use(require('chai-as-promised'));
+chai.use(require('sinon-chai'));
 
 chai.should();

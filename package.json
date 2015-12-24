@@ -1,15 +1,14 @@
 {
   "name": "worq",
-  "version": "1.2.1",
-  "description": "A promising job queue",
-  "main": "lib/Worqer.js",
+  "version": "2.0.0",
+  "description": "Promising job queue",
+  "main": "lib/Queue.js",
   "scripts": {
-    "docs": "./node_modules/.bin/jsdoc ./lib/*.js -d ./docs",
-    "pretest": "jshint lib",
-    "test": "mocha"
+    "pretest": "eslint lib && eslint test",
+    "test": "mocha -R spec"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "repository": {
     "type": "git",
@@ -19,16 +18,10 @@
     "worker",
     "promise",
     "promises",
-    "q",
     "flow control",
-    "handler",
     "threaded",
     "thread",
-    "threads",
-    "concurrency",
     "job",
-    "tasks",
-    "task",
     "queue",
     "util"
   ],
@@ -40,16 +33,12 @@
   "homepage": "https://github.com/jmversteeg/worq",
   "dependencies": {
     "bluebird": "^3.1.1",
-    "functionify": "^1.0.4",
-    "lodash": "^3.10.1",
-    "setimmediate": "^1.0.4"
+    "lodash": "^3.10.1"
   },
   "devDependencies": {
     "chai": "^3.4.1",
-    "chai-as-promised": "^5.1.0",
+    "chai-as-promised": "^5.2.0",
     "coveralls": "^2.11.6",
-    "jsdoc": "^3.4.0",
-    "jshint": "^2.9.1-rc1",
     "mocha": "^2.3.4",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0"

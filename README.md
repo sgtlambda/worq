@@ -1,6 +1,8 @@
 # worq
 
-> A promising job queue
+> Promising job queue
+
+Run promises in series or with a configurable concurrency limit
 
 [![Build Status][travis-image]][travis-url]
 [![Code Quality][codeclimate-image]][codeclimate-url]
@@ -16,8 +18,7 @@ $ npm install --save worq
 ## Usage
 
 ```js
-var Worqer = require('worq'),
-    exec   = require('child-process-promise').exec;
+const worq = require('worq');
 
 var execQueue = new Worqer(exec);
 
