@@ -23,14 +23,16 @@ const Queue = require('worq');
 var queue = new Queue();
 
 queue.run([
+
     () => somePromisingFunction(),
-    () => someOtherPromisingFunction()
+    () => someOtherPromisingFunction(),
+    () => someNormalFunction()
     
     // these functions will be executed in series
     
 ]).then(results => {
 
-    // results will contain an array of the fulfillment values
+    // results will contain an array of the return / fulfillment values
     
 });
 ```
