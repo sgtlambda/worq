@@ -2,12 +2,12 @@
 
 require('./support/bootstrap');
 
-const _       = require('lodash');
-const Queue   = require('../');
-const sinon   = require('sinon');
-const Promise = require('bluebird');
+const _     = require('lodash');
+const Queue = require('../');
+const sinon = require('sinon');
+const delay = require('delay');
 
-const delay = (fn) => Promise.delay(10).then(fn);
+const d     = (fn) => delay(10).then(fn);
 const error = () => {
     throw new Error();
 };
@@ -25,7 +25,7 @@ describe('Queue', () => {
         it('should return a promise for the completion of the jobs', () => {
             let spy1 = sinon.spy();
             return queue.run([
-                () => delay(() => spy1())
+                () => d(() => spy1())
             ]).then(() => {
                 spy1.should.have.been.called;
             });
@@ -35,7 +35,7 @@ describe('Queue', () => {
             let spy1 = sinon.spy();
             let spy2 = sinon.spy();
             return queue.run([
-                () => delay(() => spy1()),
+                () => d(() => spy1()),
                 () => spy2()
             ]).then(() => {
                 spy1.should.have.been.calledBefore(spy2);
@@ -44,23 +44,23 @@ describe('Queue', () => {
 
         it('should fulfill with an array containing the fulfillment values', () => {
             return queue.run([
-                () => delay(() => 'foo'),
-                () => delay(() => 'bar')
+                () => d(() => 'foo'),
+                () => d(() => 'bar')
             ]).should.eventually.eql(['foo', 'bar']);
         });
 
         it('should reject with the error if one is thrown', () => {
             return queue.run([
-                () => delay(() => 'foo'),
-                () => delay(error)
+                () => d(() => 'foo'),
+                () => d(error)
             ]).should.be.rejected;
         });
 
         it('should not run the remaining jobs if one of the jobs rejects', () => {
             let spy = sinon.spy();
             return queue.run([
-                () => delay(error),
-                () => delay(() => spy())
+                () => d(error),
+                () => d(() => spy())
             ]).then(() => {
                 throw new Error('Should not fulfill');
             }, () => {
@@ -71,7 +71,7 @@ describe('Queue', () => {
         it('should run the jobs in concurrency', () => {
             queue    = new Queue({concurrency: 3});
             let time = Date.now();
-            return queue.run(_.times(9, () => () => Promise.delay(50))).then(() => {
+            return queue.run(_.times(9, () => () => delay(50))).then(() => {
                 let passed = Date.now() - time;
                 passed.should.be.below(175);
                 passed.should.be.above(125);
