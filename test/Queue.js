@@ -78,4 +78,14 @@ describe('Queue', () => {
             });
         });
     });
+
+    describe('static run', () => {
+        it('should instantiate a new Queue instance and call the run function with the given jobs', () => {
+            sinon.spy(Queue.prototype, 'run');
+            let jobs = [];
+            Queue.run(jobs);
+            Queue.prototype.run.should.have.been.calledWith(jobs);
+            Queue.prototype.run.restore();
+        });
+    });
 });
