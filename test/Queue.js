@@ -8,8 +8,8 @@ const sinon = require('sinon');
 const delay = require('delay');
 
 const d     = (fn) => delay(10).then(fn);
-const error = () => {
-    throw new Error();
+const error = (msg) => {
+    throw new Error(msg);
 };
 
 describe('Queue', () => {
@@ -49,11 +49,25 @@ describe('Queue', () => {
             ]).should.eventually.eql(['foo', 'bar']);
         });
 
-        it('should reject with the error if one is thrown', () => {
+        it('should accept a mixture of regular and promise-returning functions', () => {
             return queue.run([
                 () => d(() => 'foo'),
-                () => d(error)
-            ]).should.be.rejected;
+                () => 'bar'
+            ]).should.eventually.eql(['foo', 'bar']);
+        });
+
+        it('should reject with the error if one of the jobs is rejected', () => {
+            return queue.run([
+                () => d(() => 'foo'),
+                () => d(() => error('shoo'))
+            ]).should.be.rejectedWith('shoo');
+        });
+
+        it('should reject with the error if one is thrown directly', () => {
+            return queue.run([
+                () => d(() => 'foo'),
+                () => error('shoo')
+            ]).should.be.rejectedWith('shoo');
         });
 
         it('should not run the remaining jobs if one of the jobs rejects', () => {
